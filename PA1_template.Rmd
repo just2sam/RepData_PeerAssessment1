@@ -28,8 +28,6 @@ df$date <- as.Date(df$date,"%Y-%m-%d")
 
 # double check the data type after the changes.
 str(df)
-
-# View(df)
 ```
 
 ## What is mean total number of steps taken per day?
@@ -41,23 +39,10 @@ df_x_na <- na.omit(df)
 
 # Sum the data steps by date.
 tot_steps_date <- aggregate(steps ~ date, data=df_x_na, sum)
-#class(tot_steps_date)
-# Plot histogram of the total number of steps taken each day.
-#hist(tot_steps_date$steps, col = "blue", main="Frequency of number of steps per day", xlab="Total number of steps in a #day", ylab = "Frequency")
-
-# View(tot_steps_date)
 
 # ggplot histogram
 library(ggplot2)
 qplot(tot_steps_date$steps, binwidth = 1000, xlab = "Total number of steps taken each day", fill=I("blue"), col=I("black"))
-
-# ggplot histogram
-#library(ggplot2)
-#total.steps <- tapply(df_x_na$steps, df_x_na$date, FUN = sum, na.rm = TRUE)
-#qplot(total.steps, binwidth = 1000, xlab = "total number of steps taken each day")
-#class(total.steps)
-# Simple examples
-#qplot(steps, data=tot_steps_date, geom="histogram")
 ```
 
 
@@ -81,17 +66,9 @@ median_steps
 mean_interval_steps <- aggregate(steps ~ interval, data=df_x_na, mean)
 
 # Plot time series 
-# plot(steps ~ interval, data = mean_interval_steps, type = "l")
-
-# Plot time series 
 plot(steps ~ interval, data =mean_interval_steps, type='l', col= "blue", 
      main="Steps vs Interval (Daily average)", xlab="Interval", 
      ylab="Number of steps")
-
-# Plot time series 
-#plot(mean_interval_steps$interval, mean_interval_steps$steps, type='l', col= "blue", 
-#     main="Steps vs Interval (Daily average)", xlab="Interval", 
-#     ylab="Number of steps")
 ```
 
 
@@ -100,13 +77,6 @@ plot(steps ~ interval, data =mean_interval_steps, type='l', col= "blue",
 # get the maximum number of steps. 
 max_ave_steps <-mean_interval_steps[which.max(mean_interval_steps$steps), ]$interval
 max_ave_steps
-
-# another method
-#max_ave_steps_row_id <- which.max(mean_interval_steps$steps)
-#max_ave_steps_row_id
-
-# print the answer.
-#mean_interval_steps[max_ave_steps_row_id, ]
 ```
 The interval with maximum number of steps: `r max_ave_steps`
 
@@ -118,9 +88,6 @@ Note that there are a number of days/intervals where there are missing values (c
 # sum of the total number of rows with NAs.
 total_na_val <- sum(is.na(df))
 total_na_val
-## Another method
-## df_NA <- df[!complete.cases(df),]
-## nrow(df_NA)
 ```
 Total `r total_na_val` rows are missing.
 
@@ -141,7 +108,6 @@ new_df <- df
 for (i in 1:ncol(new_df)){
   new_df[is.na(new_df[,i]),i] <- mean(new_df[,i], na.rm = TRUE) #replace NA with mean
 }
-#str(new_df)
 ```
 
 
@@ -153,9 +119,6 @@ new_tot_date_steps <- aggregate(steps ~ date, data=new_df, sum)
 # ggplot histogram
 # library(ggplot2)
 qplot(new_tot_date_steps$steps, binwidth = 1000, xlab = "Total number of steps taken each day", fill=I("blue"), col=I("black"))
-
-# Plot histogram of the total number of steps taken each day.
-#hist(new_tot_date_steps$steps, col = "blue", main="Frequency of number of steps per day", xlab="Total number of steps #in a day", ylab = "Frequency")
 
 # The answer for mean total number of steps taken per day.
 new_mean_steps <- mean(new_tot_date_steps$steps)
